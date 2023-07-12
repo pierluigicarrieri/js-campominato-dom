@@ -19,6 +19,17 @@ function clickMinefieldCreator() {
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
 /**
  * Creates a single minefield cell
  * @param {string} cellContent Content of the created cell
@@ -45,6 +56,35 @@ function cellCreator (cellContent, cellsPerRow) {
     )
 
     return cell;
+
+}
+
+/**
+ * Creates mines in form of array of numbers
+ * @param {number} cellsInMinefield 
+ * @returns {[]} array of mines
+ */
+function minesCreator (cellsInMinefield) {
+
+    const minesContainer = [];
+
+    for (let i = 0; i < 16; i++) {
+
+        let mine = Math.floor(Math.random() * cellsInMinefield + 1);
+
+        if (minesContainer.indexOf(mine) === -1) {
+
+            minesContainer.push(mine);
+
+        } else {
+
+            i--;
+
+        }
+
+    }
+    
+    return minesContainer;
 
 }
 

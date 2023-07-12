@@ -5,6 +5,8 @@ const minefieldCreatorElement = document.getElementById("minefield_creator");
 const minefieldElement = document.getElementById("minefield");
 const resultElement = document.getElementById("result");
 
+let clearCellsClicked = 0;
+
 minefieldCreatorElement.addEventListener("click", clickMinefieldCreator);
 
 /**
@@ -25,14 +27,13 @@ function clickMinefieldCreator() {
 
 
 /**
- * Creates a single minefield cell and the click mechanism for good cells/mines
+ * Creates a single minefield cell and the click mechanism for clear cells/mines
  * @param {string} cellContent Content of the created cell
  * @param {number} cellsPerRow How many cells on a single row
  * @param {[]} minesArray Mines as array of numbers
- * @param {HTMLDivElement} result Result of the game
  * @returns {HTMLDivElement} Minefield cell
  */
-function cellCreator (cellContent, cellsPerRow, minesArray, result) {
+function cellCreator (cellContent, cellsPerRow, minesArray) {
 
     const cell = document.createElement("div");
 
@@ -46,6 +47,8 @@ function cellCreator (cellContent, cellsPerRow, minesArray, result) {
 
     cell.addEventListener("click", function() {
 
+        clearCellsClicked++;
+
         for (let i = 0; i < minesArray.length; i++) {
 
             if (minesArray.indexOf(cellContent) === -1) {
@@ -56,7 +59,9 @@ function cellCreator (cellContent, cellsPerRow, minesArray, result) {
     
                 cell.classList.add("bg-danger");
 
-                result.append("YOU LOSE");
+                clearCellsClicked--;
+
+                gameOver(clearCellsClicked);
 
                 return 0;
     
@@ -135,4 +140,14 @@ function minefieldOutput(minefieldContainer, cellList) {
 
     }
 
+}
+
+/**
+ * Gets called when user steps on a mine, loss message appears 
+ * with total of clear cells clicked beforehand
+ * @param {number} clearCellsClicked the number of cells with no mines clicked by the user
+ */
+function gameOver(clearCellsClicked) {
+
+    resultElement.innerHTML = "YOU LOSE. Number of clear cells clicked is: " + clearCellsClicked;
 }

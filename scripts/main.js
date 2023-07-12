@@ -31,12 +31,13 @@ function clickMinefieldCreator() {
 
 
 /**
- * Creates a single minefield cell
+ * Creates a single minefield cell and the click mechanism for good cells/mines
  * @param {string} cellContent Content of the created cell
  * @param {number} cellsPerRow How many cells on a single row
+ * @param {[]} minesArray Mines as array of numbers
  * @returns {HTMLDivElement} Minefield cell
  */
-function cellCreator (cellContent, cellsPerRow) {
+function cellCreator (cellContent, cellsPerRow, minesArray) {
 
     const cell = document.createElement("div");
 
@@ -50,8 +51,20 @@ function cellCreator (cellContent, cellsPerRow) {
 
     cell.addEventListener("click", function() {
 
-        cell.classList.toggle("bg-info-subtle");
-        console.log(cellContent);
+        for (let i = 0; i < minesArray.length; i++) {
+
+            if (minesArray.indexOf(cellContent) === -1) {
+
+                cell.classList.add("bg-info-subtle");
+    
+            } else {
+    
+                cell.classList.add("bg-danger");
+    
+            }
+
+        }
+
     }
     )
 
@@ -96,10 +109,11 @@ function minesCreator (cellsInMinefield) {
 function minefieldCreator (difficultyArgument) {
 
     const minefield = [];
+    const arrayOfMines = minesCreator(difficultyArgument);
 
     for (let i = 0; i < difficultyArgument; i++) {
 
-        const createdCell = cellCreator(i+1, difficultyArgument);
+        const createdCell = cellCreator(i+1, difficultyArgument, arrayOfMines);
 
         minefield.push(createdCell);
 

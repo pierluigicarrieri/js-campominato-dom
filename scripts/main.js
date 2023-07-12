@@ -3,6 +3,7 @@
 const difficultySelectorElement = document.getElementById("difficulty_selector");
 const minefieldCreatorElement = document.getElementById("minefield_creator");
 const minefieldElement = document.getElementById("minefield");
+const resultElement = document.getElementById("result");
 
 minefieldCreatorElement.addEventListener("click", clickMinefieldCreator);
 
@@ -20,14 +21,7 @@ function clickMinefieldCreator() {
 }
 
 
-
-
-
-
-
-
-
-
+//UTILITY FUNCTIONS
 
 
 /**
@@ -35,9 +29,10 @@ function clickMinefieldCreator() {
  * @param {string} cellContent Content of the created cell
  * @param {number} cellsPerRow How many cells on a single row
  * @param {[]} minesArray Mines as array of numbers
+ * @param {HTMLDivElement} result Result of the game
  * @returns {HTMLDivElement} Minefield cell
  */
-function cellCreator (cellContent, cellsPerRow, minesArray) {
+function cellCreator (cellContent, cellsPerRow, minesArray, result) {
 
     const cell = document.createElement("div");
 
@@ -60,6 +55,10 @@ function cellCreator (cellContent, cellsPerRow, minesArray) {
             } else {
     
                 cell.classList.add("bg-danger");
+
+                result.append("YOU LOSE");
+
+                return 0;
     
             }
 
@@ -113,7 +112,7 @@ function minefieldCreator (difficultyArgument) {
 
     for (let i = 0; i < difficultyArgument; i++) {
 
-        const createdCell = cellCreator(i+1, difficultyArgument, arrayOfMines);
+        const createdCell = cellCreator(i+1, difficultyArgument, arrayOfMines, resultElement);
 
         minefield.push(createdCell);
 
